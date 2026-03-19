@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3 Software Tools You Can Build Right Now | Ship & Win 2026</title>
+
+  <!-- Social Preview for WhatsApp / Open Graph -->
+  <meta property="og:title" content="3 Developer Tools You Can Ship Solo in 2026">
+  <meta property="og:description" content="AI Observability, MCP Registry, AI Code Review — real products a solo engineer can build and launch to make a dent in the market.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="3 Developer Tools You Can Ship Solo in 2026">
+  <meta name="twitter:description" content="AI Observability, MCP Registry, AI Code Review — real products a solo engineer can build and launch to make a dent in the market.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop&q=80">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #06060b;
+      --surface: #0d0d16;
+      --surface-2: #14141f;
+      --surface-3: #1b1b2a;
+      --border: #252538;
+      --border-hover: #3a3a55;
+      --text: #e8e8f0;
+      --text-secondary: #a0a0b8;
+      --text-muted: #6a6a82;
+      --accent: #818cf8;
+      --accent-bright: #a5b4fc;
+      --accent-dim: rgba(129, 140, 248, 0.08);
+      --accent-glow: rgba(129, 140, 248, 0.2);
+      --green: #34d399;
+      --green-dim: rgba(52, 211, 153, 0.1);
+      --amber: #fbbf24;
+      --amber-dim: rgba(251, 191, 36, 0.1);
+      --rose: #fb7185;
+      --rose-dim: rgba(251, 113, 133, 0.1);
+      --cyan: #22d3ee;
+      --cyan-dim: rgba(34, 211, 238, 0.1);
+      --purple: #c084fc;
+      --purple-dim: rgba(192, 132, 252, 0.1);
+      --orange: #fb923c;
+      --orange-dim: rgba(251, 146, 60, 0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Grain overlay */
+    .grain {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 9999; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(6, 6, 11, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    nav .logo {
+      font-weight: 800; font-size: 0.9rem; letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    nav .logo span { color: var(--accent); }
+    nav .nav-links { display: flex; gap: 2rem; }
+    nav .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.85rem;
+      font-weight: 500; transition: color 0.2s;
+    }
+    nav .nav-links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 8rem 2rem 6rem; position: relative;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(129,140,248,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; border-radius: 100px;
+      background: var(--accent-dim); border: 1px solid rgba(129,140,248,0.15);
+      font-size: 0.8rem; color: var(--accent-bright); font-weight: 500;
+      margin-bottom: 2rem;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;
+      letter-spacing: -0.04em; line-height: 1.1; max-width: 800px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 50%, var(--rose) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem; color: var(--text-secondary); max-width: 580px;
+      line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    }
+    .btn {
+      padding: 0.75rem 1.75rem; border-radius: 10px; font-size: 0.9rem;
+      font-weight: 600; text-decoration: none; transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 20px rgba(129,140,248,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--accent-bright);
+      box-shadow: 0 0 30px rgba(129,140,248,0.4);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-hover); color: var(--text);
+      background: var(--surface);
+    }
+
+    /* Section layout */
+    section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-subtitle {
+      font-size: 1.05rem; color: var(--text-secondary); max-width: 600px;
+      line-height: 1.8; margin-bottom: 3rem;
+    }
+
+    /* Why these 3 */
+    .filter-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin-bottom: 4rem;
+    }
+    .filter-card {
+      padding: 1.25rem 1.5rem; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center;
+    }
+    .filter-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .filter-card .label {
+      font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;
+    }
+    .filter-card .value {
+      font-size: 0.95rem; font-weight: 600; color: var(--text);
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 2rem 0;
+    }
+
+    /* Project Cards */
+    .project {
+      margin-bottom: 6rem; scroll-margin-top: 5rem;
+    }
+    .project-header {
+      display: flex; align-items: flex-start; gap: 1.5rem;
+      margin-bottom: 2rem; flex-wrap: wrap;
+    }
+    .project-number {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 800; flex-shrink: 0;
+    }
+    .project-header-text { flex: 1; min-width: 250px; }
+    .project-name {
+      font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800;
+      letter-spacing: -0.03em; margin-bottom: 0.5rem;
+    }
+    .project-tagline {
+      font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7;
+    }
+
+    .project-meta {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;
+    }
+    .meta-chip {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.35rem 0.85rem; border-radius: 8px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem; margin-bottom: 2rem;
+    }
+    .project-card {
+      padding: 1.75rem; border-radius: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .project-card:hover {
+      border-color: var(--border-hover); transform: translateY(-2px);
+    }
+    .card-title {
+      font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .card-content {
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8;
+    }
+    .card-content ul {
+      list-style: none; padding: 0;
+    }
+    .card-content li {
+      padding: 0.3rem 0; padding-left: 1.2rem; position: relative;
+    }
+    .card-content li::before {
+      content: ''; position: absolute; left: 0; top: 0.75rem;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* Tech stack pills */
+    .tech-stack {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
+    }
+    .tech-pill {
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 600;
+      background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    /* Code block */
+    .code-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin-top: 1.5rem;
+    }
+    .code-header {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: var(--surface-2); border-bottom: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--text-muted); font-weight: 500;
+    }
+    .code-header .dots {
+      display: flex; gap: 5px;
+    }
+    .code-header .dot-r { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+    .code-header .dot-y { width: 10px; height: 10px; border-radius: 50%; background: #febc2e; }
+    .code-header .dot-g { width: 10px; height: 10px; border-radius: 50%; background: #28c840; }
+    .code-body {
+      padding: 1.25rem 1.5rem; overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; line-height: 1.9; color: var(--text-secondary);
+    }
+    .code-body .keyword { color: var(--purple); }
+    .code-body .string { color: var(--green); }
+    .code-body .comment { color: var(--text-muted); font-style: italic; }
+    .code-body .fn { color: var(--amber); }
+    .code-body .type { color: var(--cyan); }
+    .code-body .num { color: var(--orange); }
+
+    /* Comparison table */
+    .comparison-table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); margin-top: 1.5rem;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 0.85rem 1.25rem; text-align: left;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .comparison-table th {
+      background: var(--surface-2); color: var(--text-muted);
+      font-weight: 700; font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .comparison-table td { background: var(--surface); color: var(--text-secondary); }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .comparison-table .highlight { color: var(--green); font-weight: 600; }
+
+    /* Revenue model */
+    .revenue-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem; margin-top: 1rem;
+    }
+    .revenue-card {
+      padding: 1.25rem; border-radius: 10px; text-align: center;
+      background: var(--surface); border: 1px solid var(--border);
+    }
+    .revenue-card .tier {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.5rem;
+    }
+    .revenue-card .price {
+      font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem;
+    }
+    .revenue-card .desc {
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative; padding-left: 2rem; margin-top: 1rem;
+    }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--border);
+    }
+    .timeline-item {
+      position: relative; padding-bottom: 1.5rem;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -2rem; top: 0.35rem;
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 2px solid var(--accent); background: var(--bg);
+      transform: translateX(-4px);
+    }
+    .timeline-item .week {
+      font-size: 0.75rem; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;
+    }
+    .timeline-item .task {
+      font-size: 0.9rem; color: var(--text-secondary);
+    }
+
+    /* Bottom CTA */
+    .bottom-cta {
+      text-align: center; padding: 6rem 2rem 8rem; position: relative;
+    }
+    .bottom-cta::before {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(129,140,248,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .bottom-cta h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800;
+      letter-spacing: -0.03em; margin-bottom: 1rem;
+    }
+    .bottom-cta p {
+      font-size: 1rem; color: var(--text-secondary); max-width: 500px;
+      margin: 0 auto 2rem; line-height: 1.8;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem; text-align: center;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+
+    /* Color variants for projects */
+    .p1 .project-number { background: var(--cyan-dim); color: var(--cyan); }
+    .p1 .card-content li::before { background: var(--cyan); }
+    .p1 .meta-chip { background: var(--cyan-dim); color: var(--cyan); }
+
+    .p2 .project-number { background: var(--purple-dim); color: var(--purple); }
+    .p2 .card-content li::before { background: var(--purple); }
+    .p2 .meta-chip { background: var(--purple-dim); color: var(--purple); }
+
+    .p3 .project-number { background: var(--rose-dim); color: var(--rose); }
+    .p3 .card-content li::before { background: var(--rose); }
+    .p3 .meta-chip { background: var(--rose-dim); color: var(--rose); }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.6s ease-out forwards;
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 0.75rem 1rem; }
+      nav .nav-links { gap: 1rem; }
+      nav .nav-links a { font-size: 0.78rem; }
+      section { padding: 4rem 1.25rem; }
+      .project-grid { grid-template-columns: 1fr; }
+      .filter-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .revenue-grid { grid-template-columns: 1fr 1fr; }
+      .comparison-table { font-size: 0.78rem; }
+      .comparison-table th, .comparison-table td { padding: 0.6rem 0.75rem; }
+    }
+    @media (max-width: 480px) {
+      nav .nav-links { display: none; }
+      .filter-grid { grid-template-columns: 1fr; }
+      .revenue-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+
+  <nav>
+    <div class="logo"><span>//</span> build.ship.win</div>
+    <div class="nav-links">
+      <a href="#project-1">LLM Radar</a>
+      <a href="#project-2">MCP Hub</a>
+      <a href="#project-3">ShieldReview</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="hero-badge animate">
+      <span class="dot"></span>
+      Market analysis — March 2026
+    </div>
+    <h1 class="animate delay-1">
+      3 Tools to Build <br><span class="gradient">& Ship Right Now</span>
+    </h1>
+    <p class="animate delay-2">
+      Solo-dev-friendly products in the AI tooling space that can reach real traction fast. 
+      No teams, no hardware, no enterprise sales cycles — just code, ship, and grow.
+    </p>
+    <div class="hero-cta animate delay-3">
+      <a href="#project-1" class="btn btn-primary">Explore the ideas &darr;</a>
+      <a href="#verdict" class="btn btn-ghost">Skip to verdict</a>
+    </div>
+  </header>
+
+  <!-- ===== WHY THESE 3 ===== -->
+  <section>
+    <div class="section-label">Selection criteria</div>
+    <div class="section-title">Why these 3 and not the others?</div>
+    <div class="section-subtitle">
+      We filtered every 2026 tech trend through four constraints. 
+      Only ideas that pass all four made the cut.
+    </div>
+
+    <div class="filter-grid">
+      <div class="filter-card">
+        <div class="icon">&#9889;</div>
+        <div class="label">Time to MVP</div>
+        <div class="value">&le; 3 weeks solo</div>
+      </div>
+      <div class="filter-card">
+        <div class="icon">&#128736;</div>
+        <div class="label">Dependencies</div>
+        <div class="value">Code only, no hardware</div>
+      </div>
+      <div class="filter-card">
+        <div class="icon">&#127793;</div>
+        <div class="label">Distribution</div>
+        <div class="value">Built-in organic channel</div>
+      </div>
+      <div class="filter-card">
+        <div class="icon">&#128176;</div>
+        <div class="label">Revenue path</div>
+        <div class="value">Clear freemium model</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="color: var(--text-muted); font-size: 0.82rem;">
+        &#10060;&nbsp; What didn't make the cut
+      </div>
+      <div class="card-content" style="margin-top: 0.5rem;">
+        <ul>
+          <li><strong>Spatial Computing</strong> — Requires headset SDKs, immature ecosystem, high barrier</li>
+          <li><strong>Green Tech Carbon Calculators</strong> — B2B enterprise sales cycle, slow adoption</li>
+          <li><strong>Decentralized Identity Hubs</strong> — Needs enterprise partnerships and regulatory alignment</li>
+          <li><strong>On-device Health AI</strong> — Regulated industry, app store gatekeeping, compliance overhead</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECT 1: LLM RADAR ===== -->
+  <section class="project p1" id="project-1">
+    <div class="project-header">
+      <div class="project-number">01</div>
+      <div class="project-header-text">
+        <div class="project-name">LLM Radar</div>
+        <div class="project-tagline">
+          The "Datadog for LLM calls" — a lightweight SDK + dashboard that gives developers 
+          instant visibility into every AI API call: cost, latency, token usage, error rates, 
+          and prompt versioning. Because right now, teams are burning money blind.
+        </div>
+      </div>
+    </div>
+
+    <div class="project-meta">
+      <span class="meta-chip">&#9201; MVP: 2–3 weeks</span>
+      <span class="meta-chip">&#127919; TAM: $4.2B by 2027</span>
+      <span class="meta-chip">&#128200; Traction: Open-source SDK play</span>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="card-title">&#128161; The Problem</div>
+        <div class="card-content">
+          <p>Every company using OpenAI, Anthropic, or Google AI is hemorrhaging money with <strong>zero visibility</strong> into their LLM spend. Engineers have no idea which prompts are expensive, which are slow, or which are failing silently.</p>
+          <br>
+          <p>Existing solutions like Helicone and LangSmith are either too complex, too locked into specific frameworks, or require significant setup. There's a massive gap for a <strong>drop-in, framework-agnostic</strong> solution.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#127775; Why Now</div>
+        <div class="card-content">
+          <ul>
+            <li>Enterprise AI spend is projected to hit <strong>$200B+ in 2026</strong> — but observability tooling is stuck in 2023</li>
+            <li>Multi-model is the norm now (GPT-4o, Claude, Gemini in the same app) — no one tracks cost across providers</li>
+            <li>The "AI bill shock" meme is real — CTOs are demanding visibility</li>
+            <li>OpenTelemetry for LLMs is still not standardized — first mover defines the spec</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#128295; How It Works</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>TypeScript SDK</strong> — wraps any LLM client (OpenAI, Anthropic, etc.) as middleware, zero config</li>
+            <li><strong>Auto-capture</strong> — intercepts every call, logs tokens, latency, cost, model, prompt hash</li>
+            <li><strong>Dashboard</strong> — Next.js app showing real-time spend, per-feature breakdown, anomaly alerts</li>
+            <li><strong>Prompt versioning</strong> — automatic diffing so you can correlate prompt changes with cost/quality changes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#128640; Go-to-Market</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Open-source the SDK</strong> on GitHub (MIT license) — devs adopt tools that save them money</li>
+            <li><strong>Post launch</strong> on Hacker News, r/programming, Dev.to — "I built Datadog for LLM calls"</li>
+            <li><strong>Free hosted tier</strong> (10K events/mo) to drive adoption, then paid for teams</li>
+            <li><strong>Integration docs</strong> for LangChain, Vercel AI SDK, LlamaIndex — meet developers where they are</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code example -->
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>app.ts — 3 lines to integrate</span>
+      </div>
+      <div class="code-body">
+<span class="keyword">import</span> { LLMRadar } <span class="keyword">from</span> <span class="string">'@llm-radar/sdk'</span>
+<span class="keyword">import</span> OpenAI <span class="keyword">from</span> <span class="string">'openai'</span>
+
+<span class="comment">// Wrap your client — that's it</span>
+<span class="keyword">const</span> openai = LLMRadar.<span class="fn">wrap</span>(<span class="keyword">new</span> <span class="type">OpenAI</span>(), {
+  project: <span class="string">'my-saas'</span>,
+  environment: <span class="string">'production'</span>
+})
+
+<span class="comment">// Use it exactly the same way — costs tracked automatically</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> openai.chat.completions.<span class="fn">create</span>({
+  model: <span class="string">'gpt-4o'</span>,
+  messages: [{ role: <span class="string">'user'</span>, content: prompt }]
+})
+<span class="comment">// Dashboard → $0.03 | 847 tokens | 1.2s | gpt-4o | feature:chat</span>
+      </div>
+    </div>
+
+    <!-- Tech stack -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128736; Recommended Tech Stack</div>
+      <div class="tech-stack">
+        <span class="tech-pill">TypeScript</span>
+        <span class="tech-pill">Next.js 14</span>
+        <span class="tech-pill">ClickHouse</span>
+        <span class="tech-pill">Postgres</span>
+        <span class="tech-pill">tRPC</span>
+        <span class="tech-pill">Tailwind CSS</span>
+        <span class="tech-pill">Vercel</span>
+        <span class="tech-pill">Turborepo</span>
+      </div>
+    </div>
+
+    <!-- Revenue model -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128176; Revenue Model</div>
+      <div class="revenue-grid">
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--text-muted);">Free</div>
+          <div class="price" style="color: var(--text);">$0</div>
+          <div class="desc">10K events/mo<br>7-day retention<br>1 project</div>
+        </div>
+        <div class="revenue-card" style="border-color: var(--cyan);">
+          <div class="tier" style="color: var(--cyan);">Pro</div>
+          <div class="price" style="color: var(--cyan);">$29/mo</div>
+          <div class="desc">500K events/mo<br>90-day retention<br>Unlimited projects</div>
+        </div>
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--amber);">Team</div>
+          <div class="price" style="color: var(--amber);">$99/mo</div>
+          <div class="desc">5M events/mo<br>1-year retention<br>Alerts & budgets</div>
+        </div>
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--purple);">Enterprise</div>
+          <div class="price" style="color: var(--purple);">Custom</div>
+          <div class="desc">Unlimited<br>Self-hosted option<br>SSO & audit logs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build timeline -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128197; Build Timeline</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="week">Week 1</div>
+          <div class="task">SDK core: wrap OpenAI/Anthropic clients, capture events, batch upload to API</div>
+        </div>
+        <div class="timeline-item">
+          <div class="week">Week 2</div>
+          <div class="task">Dashboard: real-time cost chart, per-model breakdown, prompt explorer</div>
+        </div>
+        <div class="timeline-item">
+          <div class="week">Week 3</div>
+          <div class="task">Polish: alerts, budget limits, public landing page, Hacker News launch</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+    <div class="divider"></div>
+  </div>
+
+  <!-- ===== PROJECT 2: MCP HUB ===== -->
+  <section class="project p2" id="project-2">
+    <div class="project-header">
+      <div class="project-number">02</div>
+      <div class="project-header-text">
+        <div class="project-name">MCP Hub</div>
+        <div class="project-tagline">
+          An npm-style registry and marketplace for Model Context Protocol servers. 
+          Search, publish, discover, and one-click install MCP servers — because right now, 
+          finding MCP servers is like finding npm packages in 2010: scattered across random GitHub repos.
+        </div>
+      </div>
+    </div>
+
+    <div class="project-meta">
+      <span class="meta-chip">&#9201; MVP: 1–2 weeks</span>
+      <span class="meta-chip">&#127919; First-mover advantage</span>
+      <span class="meta-chip">&#128200; Traction: Network effects</span>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="card-title">&#128161; The Problem</div>
+        <div class="card-content">
+          <p>MCP (Model Context Protocol) is <strong>exploding right now</strong>. Anthropic created it, Cursor adopted it, every AI tool is integrating it. But there's <strong>no central place</strong> to discover MCP servers.</p>
+          <br>
+          <p>Developers are sharing servers in GitHub READMEs, Discord messages, and Twitter threads. It's like npm before npmjs.com existed — a massive ecosystem with no front door.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#127775; Why Now</div>
+        <div class="card-content">
+          <ul>
+            <li>MCP adoption is in its <strong>"gold rush" phase</strong> — adoption curve is near-vertical</li>
+            <li>Every major AI company (Anthropic, OpenAI, Google) is moving toward tool-use protocols</li>
+            <li>First mover wins for registries — <strong>npm, Docker Hub, Homebrew</strong> all prove this pattern</li>
+            <li>The protocol is standardized, but discovery is completely fragmented</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#128295; How It Works</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Searchable catalog</strong> — browse by category (databases, APIs, dev tools, cloud providers)</li>
+            <li><strong>GitHub integration</strong> — auto-index repos with MCP server manifests, pull README, stars, activity</li>
+            <li><strong>One-click install</strong> — generate the config snippet for Cursor, Claude Desktop, etc.</li>
+            <li><strong>Quality signals</strong> — download count, verified badge, compatibility matrix, user reviews</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#128640; Go-to-Market</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>Pre-populate</strong> by scraping every MCP server from GitHub (there are already 1,000+)</li>
+            <li><strong>Submit to Anthropic</strong> — get listed as "community resource" in their MCP docs</li>
+            <li><strong>SEO play</strong> — "mcp server for [X]" is an untapped search gold mine</li>
+            <li><strong>Community flywheel</strong> — every new server listed makes the registry more valuable</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison table -->
+    <div class="project-card" style="margin-top: 0;">
+      <div class="card-title">&#128200; Competitive Landscape</div>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>GitHub Search</th>
+            <th>Awesome Lists</th>
+            <th class="highlight">MCP Hub (Ours)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Search by category</td>
+            <td>Barely</td>
+            <td>Manual scroll</td>
+            <td class="highlight">Full-text + filters</td>
+          </tr>
+          <tr>
+            <td>One-click install</td>
+            <td>No</td>
+            <td>No</td>
+            <td class="highlight">Yes — config snippet</td>
+          </tr>
+          <tr>
+            <td>Quality signals</td>
+            <td>Stars only</td>
+            <td>Curated (slow)</td>
+            <td class="highlight">Stars + downloads + verified</td>
+          </tr>
+          <tr>
+            <td>Auto-update listings</td>
+            <td>N/A</td>
+            <td>Manual PRs</td>
+            <td class="highlight">GitHub webhook sync</td>
+          </tr>
+          <tr>
+            <td>Publish workflow</td>
+            <td>Just push code</td>
+            <td>Submit PR</td>
+            <td class="highlight">CLI publish + auto-detect</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Code example -->
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>terminal — publishing a server</span>
+      </div>
+      <div class="code-body">
+<span class="comment"># Publish your MCP server to the registry</span>
+$ <span class="fn">npx</span> mcphub <span class="fn">publish</span>
+
+<span class="string">&#10004; Detected MCP server manifest (mcp.json)</span>
+<span class="string">&#10004; Validated 12 tools, 3 resources</span>
+<span class="string">&#10004; Published @yourname/postgres-mcp v1.2.0</span>
+<span class="string">&#10004; Live at https://mcphub.dev/p/yourname/postgres-mcp</span>
+
+<span class="comment"># Install any server with one command</span>
+$ <span class="fn">npx</span> mcphub <span class="fn">install</span> @stripe/mcp-server <span class="keyword">--target</span> cursor
+
+<span class="string">&#10004; Added to .cursor/mcp.json</span>
+<span class="string">&#10004; Restart Cursor to activate</span>
+      </div>
+    </div>
+
+    <!-- Tech stack -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128736; Recommended Tech Stack</div>
+      <div class="tech-stack">
+        <span class="tech-pill">Next.js 14</span>
+        <span class="tech-pill">TypeScript</span>
+        <span class="tech-pill">Postgres</span>
+        <span class="tech-pill">GitHub API</span>
+        <span class="tech-pill">Algolia / Meilisearch</span>
+        <span class="tech-pill">Tailwind CSS</span>
+        <span class="tech-pill">Vercel</span>
+      </div>
+    </div>
+
+    <!-- Revenue model -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128176; Revenue Model</div>
+      <div class="revenue-grid">
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--text-muted);">Free forever</div>
+          <div class="price" style="color: var(--text);">$0</div>
+          <div class="desc">Unlimited browsing<br>Publish public servers<br>Community support</div>
+        </div>
+        <div class="revenue-card" style="border-color: var(--purple);">
+          <div class="tier" style="color: var(--purple);">Verified Publisher</div>
+          <div class="price" style="color: var(--purple);">$19/mo</div>
+          <div class="desc">Verified badge<br>Analytics dashboard<br>Priority listing</div>
+        </div>
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--amber);">Sponsored Listing</div>
+          <div class="price" style="color: var(--amber);">$99/mo</div>
+          <div class="desc">Featured placement<br>Category sponsorship<br>Analytics + leads</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build timeline -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128197; Build Timeline</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="week">Week 1</div>
+          <div class="task">Scrape GitHub for existing MCP servers, build searchable catalog with Next.js, deploy to Vercel</div>
+        </div>
+        <div class="timeline-item">
+          <div class="week">Week 2</div>
+          <div class="task">Add publish CLI, one-click install configs, user accounts, submit to Anthropic docs for listing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+    <div class="divider"></div>
+  </div>
+
+  <!-- ===== PROJECT 3: SHIELD REVIEW ===== -->
+  <section class="project p3" id="project-3">
+    <div class="project-header">
+      <div class="project-number">03</div>
+      <div class="project-header-text">
+        <div class="project-name">ShieldReview</div>
+        <div class="project-tagline">
+          A GitHub App that auto-reviews every PR for security vulnerabilities — not generic "AI code review" 
+          but laser-focused on catching secrets, injection flaws, auth bypasses, and dependency risks. 
+          Published on GitHub Marketplace for instant distribution to millions of developers.
+        </div>
+      </div>
+    </div>
+
+    <div class="project-meta">
+      <span class="meta-chip">&#9201; MVP: 1–2 weeks</span>
+      <span class="meta-chip">&#127919; GitHub Marketplace distribution</span>
+      <span class="meta-chip">&#128200; Traction: Free for public repos</span>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="card-title">&#128161; The Problem</div>
+        <div class="card-content">
+          <p>Generic AI code reviewers (CodeRabbit, Codium, etc.) try to do everything — style, logic, performance, security. The result? <strong>Noisy, generic comments</strong> that developers learn to ignore.</p>
+          <br>
+          <p>Security review needs to be <strong>specialized and trusted</strong>. A tool that only comments when it finds a real vulnerability gets respect. A tool that comments on everything becomes noise.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#127775; Why Now</div>
+        <div class="card-content">
+          <ul>
+            <li>Supply chain attacks are up <strong>742%</strong> since 2022 — security is top of mind for every CTO</li>
+            <li>AI models in 2026 are finally <strong>good enough</strong> to reason about security patterns reliably</li>
+            <li>GitHub Marketplace gives you <strong>instant distribution</strong> to 100M+ developers</li>
+            <li>"Shift left" security is a $7.5B market and growing — but tooling is enterprise-only</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#128295; How It Works</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>GitHub App</strong> — installs in 2 clicks, triggers on every PR</li>
+            <li><strong>Diff analysis</strong> — only scans changed lines (fast, cheap, focused)</li>
+            <li><strong>AI-powered reasoning</strong> — uses Claude/GPT-4o to reason about security context, not just pattern match</li>
+            <li><strong>Actionable comments</strong> — inline suggestions with fix code, severity rating, CVE references</li>
+            <li><strong>Zero false-positive culture</strong> — only comments when confidence is high, earns developer trust</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title">&#128640; Go-to-Market</div>
+        <div class="card-content">
+          <ul>
+            <li><strong>GitHub Marketplace</strong> — free for public repos, paid for private (instant distribution)</li>
+            <li><strong>Security-first positioning</strong> — "The AI security reviewer that only speaks when it matters"</li>
+            <li><strong>Case studies</strong> — scan popular open-source repos, report found vulnerabilities, build credibility</li>
+            <li><strong>SOC 2 angle</strong> — "Add ShieldReview to your PR workflow" as a compliance checkbox</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code example: what a review looks like -->
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dots"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
+        <span>PR #247 — ShieldReview comment</span>
+      </div>
+      <div class="code-body">
+<span class="comment">// ShieldReview found 1 issue in this PR</span>
+
+<span class="keyword">&#9888;&#65039; HIGH</span> — <span class="type">SQL Injection</span> in <span class="string">src/api/users.ts:42</span>
+
+  <span class="keyword">const</span> query = <span class="string">`SELECT * FROM users WHERE id = ${req.params.id}`</span>
+                                                  <span class="keyword">^^^^^^^^^^^^^^^^^</span>
+  User input is interpolated directly into SQL query.
+  This allows an attacker to extract or modify any data in the database.
+
+  <span class="fn">Suggested fix:</span>
+  <span class="keyword">const</span> query = <span class="string">`SELECT * FROM users WHERE id = $1`</span>
+  <span class="keyword">const</span> result = <span class="keyword">await</span> db.<span class="fn">query</span>(query, [req.params.id])
+
+  <span class="comment">References: CWE-89, OWASP A03:2021</span>
+      </div>
+    </div>
+
+    <!-- What it catches -->
+    <div class="project-card" style="margin-top: 1.5rem;">
+      <div class="card-title">&#128737;&#65039; What It Catches (v1 Scope)</div>
+      <div class="card-content">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 0.5rem;">
+          <ul>
+            <li>Hardcoded secrets & API keys</li>
+            <li>SQL/NoSQL injection patterns</li>
+            <li>XSS vulnerabilities</li>
+            <li>Insecure deserialization</li>
+          </ul>
+          <ul>
+            <li>Authentication bypasses</li>
+            <li>Path traversal attacks</li>
+            <li>Insecure cryptography usage</li>
+            <li>Dependency vulnerabilities (via OSV)</li>
+          </ul>
+          <ul>
+            <li>SSRF & open redirect</li>
+            <li>Missing rate limiting</li>
+            <li>Privilege escalation patterns</li>
+            <li>Unsafe file uploads</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech stack -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128736; Recommended Tech Stack</div>
+      <div class="tech-stack">
+        <span class="tech-pill">Node.js</span>
+        <span class="tech-pill">TypeScript</span>
+        <span class="tech-pill">Probot (GitHub App framework)</span>
+        <span class="tech-pill">Claude API / GPT-4o</span>
+        <span class="tech-pill">Redis (rate limiting)</span>
+        <span class="tech-pill">Railway / Vercel</span>
+      </div>
+    </div>
+
+    <!-- Revenue model -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128176; Revenue Model</div>
+      <div class="revenue-grid">
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--text-muted);">Open Source</div>
+          <div class="price" style="color: var(--text);">$0</div>
+          <div class="desc">Public repos<br>Unlimited PRs<br>Community support</div>
+        </div>
+        <div class="revenue-card" style="border-color: var(--rose);">
+          <div class="tier" style="color: var(--rose);">Pro</div>
+          <div class="price" style="color: var(--rose);">$19/mo</div>
+          <div class="desc">Private repos<br>Up to 5 repos<br>Slack notifications</div>
+        </div>
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--amber);">Team</div>
+          <div class="price" style="color: var(--amber);">$49/mo</div>
+          <div class="desc">Unlimited repos<br>Custom rules<br>Dashboard & trends</div>
+        </div>
+        <div class="revenue-card">
+          <div class="tier" style="color: var(--purple);">Enterprise</div>
+          <div class="price" style="color: var(--purple);">$199/mo</div>
+          <div class="desc">Self-hosted<br>SAML/SSO<br>Compliance reports</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build timeline -->
+    <div style="margin-top: 2rem;">
+      <div class="card-title" style="font-size: 0.85rem;">&#128197; Build Timeline</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="week">Week 1</div>
+          <div class="task">GitHub App with Probot, PR webhook listener, diff parser, AI analysis pipeline with Claude</div>
+        </div>
+        <div class="timeline-item">
+          <div class="week">Week 2</div>
+          <div class="task">Inline PR comments, severity ratings, suggested fixes, publish on GitHub Marketplace</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VERDICT ===== -->
+  <section id="verdict" style="padding-top: 4rem;">
+    <div class="section-label">The Verdict</div>
+    <div class="section-title">If you can only build one thing...</div>
+    <div class="section-subtitle">
+      All three are viable, but here's the honest ranking for a solo developer in March 2026.
+    </div>
+
+    <div class="project-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+      <div class="project-card" style="border-color: var(--green); background: linear-gradient(135deg, var(--surface) 0%, rgba(52,211,153,0.03) 100%);">
+        <div class="card-title" style="font-size: 1.1rem;">
+          &#129351; MCP Hub — Build This First
+        </div>
+        <div class="card-content">
+          <p style="margin-bottom: 1rem;"><strong>Smallest MVP, biggest timing advantage.</strong></p>
+          <ul>
+            <li>Literally a searchable catalog — ship in days, not weeks</li>
+            <li>MCP is in its gold rush phase RIGHT NOW — this window closes fast</li>
+            <li>First-mover advantage is real for registries (npm, Docker Hub, crates.io)</li>
+            <li>Network effects compound — every new server makes your registry more valuable</li>
+            <li>SEO alone could drive thousands of daily visitors within months</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title" style="font-size: 1.1rem;">
+          &#129352; LLM Radar — Build This Second
+        </div>
+        <div class="card-content">
+          <p style="margin-bottom: 1rem;"><strong>Biggest revenue potential, needs more polish.</strong></p>
+          <ul>
+            <li>Solves a real, painful problem — teams are bleeding money on LLM APIs</li>
+            <li>Open-source SDK is a strong distribution moat</li>
+            <li>Clear path to $29-99/mo subscriptions</li>
+            <li>Takes 2-3 weeks but the payoff is higher long-term</li>
+          </ul>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-title" style="font-size: 1.1rem;">
+          &#129353; ShieldReview — Build This Third
+        </div>
+        <div class="card-content">
+          <p style="margin-bottom: 1rem;"><strong>Best distribution, most competitive market.</strong></p>
+          <ul>
+            <li>GitHub Marketplace is unmatched distribution</li>
+            <li>Security niche is defensible — but more crowded than the other two</li>
+            <li>Can differentiate with zero-false-positive philosophy</li>
+            <li>Enterprise upsell path is strong if you get trust</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card" style="margin-top: 2rem; border-color: var(--accent); text-align: center; padding: 2.5rem;">
+      <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem;">
+        The Strategy: Build Sequentially, Compound Distribution
+      </div>
+      <div class="card-content" style="max-width: 600px; margin: 0 auto;">
+        <p>Ship MCP Hub in 1-2 weeks. Use the audience and credibility to launch LLM Radar. 
+        Use the open-source community from both to launch ShieldReview on GitHub Marketplace. 
+        Each product feeds the next. <strong>This is how solo devs build empires.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BOTTOM CTA ===== -->
+  <div class="bottom-cta">
+    <h2>Ready to start building?</h2>
+    <p>These aren't theoretical ideas. They're specific, actionable products with clear paths to traction. 
+    Pick one and ship it this month.</p>
+    <a href="#project-2" class="btn btn-primary">Start with MCP Hub &uarr;</a>
+  </div>
+
+  <footer>
+    <p>Built with analysis from Claude &middot; March 2026 &middot; <span class="mono" style="color: var(--accent);">build.ship.win</span></p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('animate');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.project, .project-card, .filter-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+
+    observer.observe = (original => function(el) {
+      const callback = entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+          }
+        });
+      };
+      const obs = new IntersectionObserver(callback, { threshold: 0.1 });
+      obs.observe(el);
+    })(observer.observe);
+
+    document.querySelectorAll('.project, .project-card, .filter-card').forEach(el => {
+      const callback = entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'translateY(0)';
+          }
+        });
+      };
+      const obs = new IntersectionObserver(callback, { threshold: 0.1 });
+      obs.observe(el);
+    });
+  </script>
+</body>
+</html>
